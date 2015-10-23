@@ -26,4 +26,15 @@ RSpec.describe Site, type: :model do
       expect(title.content).to eq "Google"
     end
   end
+
+  it "scrapes Alexa page" do
+    expect{ Site.scrape_alexa_page(0) }.to change(Site, :count).by(25)
+    expect{ Site.scrape_alexa_page(0) }.to change(Site, :count).by(0)
+    expect{ Site.scrape_alexa_page(1) }.to change(Site, :count).by(25)
+  end
+
+  it "scrapes Alexa top 100" do
+    expect{ Site.scrape_alexa }.to change(Site, :count).by(100)
+    expect{ Site.scrape_alexa }.to change(Site, :count).by(0)
+  end
 end

@@ -22,4 +22,20 @@ class Site < ActiveRecord::Base
   def self.scrape(url)
     Nokogiri::HTML(open(url))
   end
+
+  def self.scrape_alexa_page(page_num)
+    scrape("http://www.alexa.com/topsites/global;#{page_num}")
+    .css(".site-listing")
+    .each do |s|
+      Site.find_or_create_by(:rank => s.at_css(".count").content) do |site|
+        site.name = s.at_css(".desc-paragraph a").content
+        site.url = s.at_css(".desc-paragraph a[href]").content
+        site.description = s.at_css(".description").content.strip
+      end
+    end
+  end
+
+  def self.scrape_alexa
+    (0..3).each { |page_num| scrape_alexa_page(page_num) }
+  end
 end
