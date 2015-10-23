@@ -22,8 +22,7 @@ RSpec.describe Site, type: :model do
   end
 
   it "scrapes any url" do
-    doc = Site.scrape("http://www.google.com")
-    doc.css("title").each do |title|
+    Site.scrape("http://www.google.com").css("title").each do |title|
       expect(title.content).to eq "Google"
     end
   end

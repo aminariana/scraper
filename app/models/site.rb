@@ -20,6 +20,6 @@ class Site < ActiveRecord::Base
   validates_uniqueness_of :rank, :url
 
   def self.scrape(url)
-    doc = Nokogiri::HTML(open(url))
+    Nokogiri::HTML(open(url))
   end
 end
