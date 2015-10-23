@@ -45,6 +45,10 @@ group :development, :test do
   gem 'spring'
 end
 
+group :test do
+  gem 'factory_girl_rails', '~> 4'        # Test Factories
+end
+
 group :development do
   gem 'annotate', "~> 2"                  # Annotate routes and models
 end
