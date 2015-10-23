@@ -27,10 +27,22 @@ class Site < ActiveRecord::Base
     scrape("http://www.alexa.com/topsites/global;#{page_num}")
     .css(".site-listing")
     .each do |s|
-      Site.find_or_create_by(:rank => s.at_css(".count").content) do |site|
-        site.name = s.at_css(".desc-paragraph a").content
-        site.url = s.at_css(".desc-paragraph a[href]").content
-        site.description = s.at_css(".description").content.strip
+      rank = s.at_css(".count").content
+      name = s.at_css(".desc-paragraph a").content
+      url = s.at_css(".desc-paragraph a[href]").content
+      description = s.at_css(".description").content.strip
+      Site.find_or_create_by(:rank => rank) do |site|
+        # Initiation case
+        site.name = name
+        site.url = url
+        site.description = description
+        puts "Created #{name}"
+      end.tap do |site|
+        # Update / Override stale info case
+        site.name = name
+        site.url = url
+        site.description = description
+        puts "Updated #{name}"
       end
     end
   end
