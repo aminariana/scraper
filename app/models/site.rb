@@ -14,5 +14,5 @@
 
 class Site < ActiveRecord::Base
   validates_presence_of :name, :rank, :url
-  validates_uniqueness_of :rank
+  validates_uniqueness_of :rank, :url
 end
