@@ -12,7 +12,14 @@
 #  updated_at  :datetime         not null
 #
 
+require 'nokogiri'
+require 'open-uri'
+
 class Site < ActiveRecord::Base
   validates_presence_of :name, :rank, :url
   validates_uniqueness_of :rank, :url
+
+  def self.scrape(url)
+    doc = Nokogiri::HTML(open(url))
+  end
 end

@@ -20,4 +20,11 @@ RSpec.describe Site, type: :model do
   it "saves" do
     expect { site.save! }.to change(Site, :count).by(1)
   end
+
+  it "scrapes any url" do
+    doc = Site.scrape("http://www.google.com")
+    doc.css("title").each do |title|
+      expect(title.content).to eq "Google"
+    end
+  end
 end
